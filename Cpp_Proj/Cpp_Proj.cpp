@@ -25,7 +25,14 @@ int main()
 
 static void mazeCreator(int maze[100][100], int size)
 {
-	bool flag{false};
+	bool flag{ true };
+	bool path{ true };
+	int x{size - 2};
+	int y{size / 2};
+	int r{ 0 };
+	int dir{ 3 };
+	int pom{ 0 };
+
 #if 0
 	My made up rules to the creation of the maze which will make it pretty :) (hopefully) :
 	1. Surrounded by walls //done
@@ -51,28 +58,79 @@ static void mazeCreator(int maze[100][100], int size)
 				{
 					maze[i][j] = 0;
 				}
-				else if (j < size)
-				{
-					if (i == 1 || i == size - 2) {
-
-					} 
-					else if (rand()%3 == 0 && flag)
-					{
-						maze[i][j] = 0;
-						flag = false;
-					}
-					else 
-					{ 
-						maze[i][j] = 1;
-						flag = true;
-					}
-				}
 				else maze[i][j] = 0;
 			}
 		}
 	}
 	//Entrence to the maze
 	maze[size - 1][size / 2] = 0;
+
+
+
+	while (path) {
+		pom++;
+		maze[x][y] = 2;
+
+		r = rand() % 4;
+		std::cout << r;
+
+		switch (r)
+		{
+			// LEFT
+		case 0:
+			if (!(dir == 1)) 
+			{
+				dir = 0;
+				std::cout << "LEFT\n";
+			}
+			
+
+			break;
+
+			// RIGHT
+		case 1:
+			if (!(dir == 0))
+			{
+				dir = 1;
+				std::cout << "RIGHT\n";
+
+			}
+
+			break;
+			// DOWN
+		case 2:
+			if (!(dir == 3))
+			{
+				dir = 2;
+				std::cout << "DOWN\n";
+
+			}
+
+			break;
+			// UP
+		case 3:
+			if (!(dir == 2))
+			{
+				dir = 3;
+				std::cout << "UP\n";
+
+			}
+
+			break;
+
+		default:
+
+			break;
+
+		}
+
+		if (pom == 20) {
+			path = false;
+		}
+		
+	}
+	
+
 }
 
 static void mazePrint(int maze[100][100], int size)
@@ -88,6 +146,10 @@ static void mazePrint(int maze[100][100], int size)
 			else if (maze[i][j] == 0)
 			{
 				std::cout << "   ";
+			}
+			else if (maze[i][j] == 2)
+			{
+				std::cout << " 0 ";
 			}
 		}
 		std::cout << "\n";
