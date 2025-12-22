@@ -43,6 +43,11 @@ static void mazeCreator(int maze[100][100], int size)
 
 #endif
 
+		//Maybe maze creation should be a recursive function??
+		//This function would invoke itself (or not) on each crossing
+
+		//Maybe it should be a snake - like creation, where there is a counter for each turn which blocks the same two turns in a row
+
 	for (int i = 0; i < 100; i++)
 	{
 		if (i < size) {
@@ -52,13 +57,7 @@ static void mazeCreator(int maze[100][100], int size)
 				if (i == 0 || i == size-1 || j == 0 || j == size-1)
 				{
 					maze[i][j] = 1;
-				}
-				//Corners of the maze
-				else if ((i == 1 && j == 1) || (i == size - 2 && j == size - 2) || (i == size - 2 && j == 1) || (i == 1 && j == size - 2))
-				{
-					maze[i][j] = 0;
-				}
-				else maze[i][j] = 0;
+				} else maze[i][j] = 0;
 			}
 		}
 	}
@@ -66,71 +65,117 @@ static void mazeCreator(int maze[100][100], int size)
 	maze[size - 1][size / 2] = 0;
 
 
-
+	srand(time(0));
 	while (path) {
 		pom++;
 		maze[x][y] = 2;
-
 		r = rand() % 4;
-		std::cout << r;
-
+		//std::cout << r << "\n";
 		switch (r)
 		{
 			// LEFT
 		case 0:
-			if (!(dir == 1)) 
+			if (!(dir == 1))
 			{
-				dir = 0;
-				std::cout << "LEFT\n";
+				if ( y == 1 )
+				{
+					path = false;
+					break;
+				}
+				else {
+					dir = 0;
+					//std::cout << "LEFT\n";
+					
+
+					//There should be a WARUNEK to not create a path side by side another path
+					//Path can't be on a tile down up 
+					if (maze[x - 1][y - 1] != 2 && maze[x + 1][y - 1] != 2)
+					{
+						maze[x][--y] = 2;
+					}
+					
+					
+				}
 			}
 			
-
 			break;
 
 			// RIGHT
 		case 1:
 			if (!(dir == 0))
 			{
-				dir = 1;
-				std::cout << "RIGHT\n";
+				if ( y == size - 2 ) 
+				{
+					path = false;
+					break;
+				}
+				else
+				{
+					dir = 1;
+					//std::cout << "RIGHT\n";
+					//can't be a path on a tiles Down and UP
+					if (maze[x - 1][y + 1] != 2 && maze[x + 1][y + 1] != 2)
+					{
+						maze[x][++y] = 2;
+					}
 
+				}
 			}
-
+			
 			break;
 			// DOWN
 		case 2:
 			if (!(dir == 3))
 			{
-				dir = 2;
-				std::cout << "DOWN\n";
-
+				if (x == size - 2)
+				{
+					path = false;
+					break;
+				}
+				else
+				{
+					dir = 2;
+					//std::cout << "DOWN\n";
+					if (maze[x + 1][y - 1] != 2 && maze[x + 1][y + 1] != 2)
+					{
+						maze[++x][y] = 2;
+					}
+					
+				}
+				
 			}
-
+			
 			break;
 			// UP
 		case 3:
 			if (!(dir == 2))
 			{
-				dir = 3;
-				std::cout << "UP\n";
+				if (x == 1)
+				{
+					path = false;
+					break;
+				}
+				else
+				{
+					dir = 3;
+					//std::cout << "UP\n";
 
+					if (maze[x - 1][y - 1] != 2 && maze[x - 1][y + 1] != 2)
+					{
+						maze[--x][y] = 2;
+					}
+					
+
+				}
+				
 			}
 
 			break;
 
 		default:
-
 			break;
-
 		}
-
-		if (pom == 20) {
-			path = false;
-		}
-		
 	}
-	
-
 }
 
 static void mazePrint(int maze[100][100], int size)
