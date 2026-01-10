@@ -6,6 +6,7 @@ void mazePrint(int maze[100][100], int size);
 
 int main()
 {
+	//Test on linux
 	int x {0};
 	int maze[100][100];
 	
